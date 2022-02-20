@@ -24,7 +24,7 @@ export const FavorecidoPage = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignContent: 'center',
-          padding: '2rem',
+          padding: '0 1rem',
         }}
       >
         <FavorecidosTable

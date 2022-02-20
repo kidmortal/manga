@@ -23,6 +23,8 @@ export const FavorecidosTable = ({
   printFavorecido,
   deleteFavorecido,
 }: FavorecidosTableProps) => {
+  const [cheques, setCheques] = useState(0);
+  const [especie, setEspecie] = useState(0);
   const [searchName, setSearchName] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const dispatch = useAppDispatch();
@@ -33,13 +35,13 @@ export const FavorecidosTable = ({
   const favorecidosKey: FavorecidoKey[] = favorecidos
     ?.map((c, idx) => ({
       ...c,
-      key: idx,
+      key: idx + 1,
     }))
     .filter((value) =>
       value.NOME.toLowerCase().includes(searchName.toLowerCase())
     );
   const selected =
-    selectedFavorecidoKey && favorecidosKey[selectedFavorecidoKey];
+    selectedFavorecidoKey && favorecidosKey[selectedFavorecidoKey - 1];
 
   const columns = [
     {
@@ -114,10 +116,45 @@ export const FavorecidosTable = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
-        padding: '1rem',
+        padding: '0 1rem',
         width: '100%',
       }}
     >
+      <div
+        style={{
+          width: '30rem',
+          height: '6rem',
+          backgroundColor: 'pink',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '0.5rem',
+          borderRadius: '5px',
+          marginBottom: '1rem',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '1rem',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span>{selected && selected.NOME}</span>
+          <strong>{selected && selected.BANCO}</strong>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+          <span style={{ width: '7rem' }}>
+            AG: {selected && selected.AGENCIA}
+          </span>
+          {cheques > 0 && `CHEQUES: R$ ${cheques}`}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+          <span style={{ width: '7rem' }}>{selected && selected.CONTA}</span>
+          {especie > 0 && `ESPECIE: R$ ${especie}`}
+        </div>
+        <strong>TOTAL: R$ {especie + cheques}</strong>
+      </div>
       <Table
         rowSelection={{
           type: 'radio',
@@ -151,13 +188,29 @@ export const FavorecidosTable = ({
         columns={columns}
         dataSource={favorecidosKey}
       />
-      <Button
-        type="primary"
-        disabled={!selected}
-        onClick={() => selected && printFavorecido(selected)}
-      >
-        Imprimir Favorecido
-      </Button>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+        <Input
+          type="number"
+          value={cheques}
+          onChange={(e) => setCheques(Number(e.target.value))}
+          prefix="Cheque:"
+          suffix="R$"
+        />
+        <Input
+          type="number"
+          value={especie}
+          onChange={(e) => setEspecie(Number(e.target.value))}
+          prefix="Especie:"
+          suffix="R$"
+        />
+        <Button
+          type="primary"
+          disabled={!selected}
+          onClick={() => selected && printFavorecido(selected)}
+        >
+          Imprimir Favorecido
+        </Button>
+      </div>
     </div>
   );
 };

@@ -34,12 +34,12 @@ export const CarimbosTable = ({
   const carimbosKey: CarimboKey[] = carimbos
     ?.map((c, idx) => ({
       ...c,
-      key: idx,
+      key: idx + 1,
     }))
     .filter((value) =>
       value.NOME.toLowerCase().includes(searchName.toLowerCase())
     );
-  const selected = selectedCarimboKey && carimbosKey[selectedCarimboKey];
+  const selected = selectedCarimboKey && carimbosKey[selectedCarimboKey - 1];
 
   const columns = [
     {

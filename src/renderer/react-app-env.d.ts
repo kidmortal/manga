@@ -32,6 +32,12 @@ type Carimbo = {
   'CNPJ/CPF': string;
 };
 
+type Envelope = {
+  favorecido: Favorecido;
+  valorCheques: number;
+  valorEspecie: number;
+};
+
 type Favorecido = {
   ID: number;
   AGENCIA: string;
