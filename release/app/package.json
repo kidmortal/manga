@@ -1,6 +1,6 @@
 {
   "name": "manga",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "manga app",
   "main": "./dist/main/main.js",
   "author": {
