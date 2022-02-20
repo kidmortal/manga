@@ -1,6 +1,6 @@
 import { app, dialog, ipcMain } from 'electron';
 import { database, RecoverDatabase } from './database/database';
-import { ExcelWriteCarimbo } from './services/excel';
+import { ExcelWriteCarimbo, ExcelWriteEnvelope } from './services/excel';
 import { ListPrinters, PrintFile } from './services/printer';
 
 ipcMain.on('getAllCarimbos', async (event, arg) => {
@@ -59,6 +59,12 @@ ipcMain.on('printCarimbo', async (event, arg: Carimbo) => {
   const success = await ExcelWriteCarimbo(arg);
   if (success) PrintFile('CARIMBO.xlsx');
   event.reply('printCarimbo', { message: 'ok' });
+});
+
+ipcMain.on('printEnvelope', async (event, arg: Envelope) => {
+  const success = await ExcelWriteEnvelope(arg);
+  if (success) PrintFile('ENVELOPE.xlsx');
+  event.reply('printEnvelope', { message: 'ok' });
 });
 
 ipcMain.on('listPrinters', async (event, arg: Carimbo) => {

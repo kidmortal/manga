@@ -43,6 +43,10 @@ export default {
     electron.emit('printFavorecido', favorecido);
     return promise<any>('printFavorecido');
   },
+  printEnvelope(envelope: Envelope) {
+    electron.emit('printEnvelope', envelope);
+    return promise<any>('printEnvelope');
+  },
   recoverDatabase() {
     electron.emit('recoverDatabase');
     return promise<any>('recoverDatabase');

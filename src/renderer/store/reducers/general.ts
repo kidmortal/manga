@@ -15,6 +15,8 @@ interface GeneralState {
   };
   selectedCarimboKey?: number;
   selectedFavorecidoKey?: number;
+  especie: number;
+  cheque: number;
 }
 
 const initialState: GeneralState = {
@@ -30,6 +32,8 @@ const initialState: GeneralState = {
   },
   selectedFavorecidoKey: undefined,
   selectedCarimboKey: undefined,
+  especie: 0,
+  cheque: 0,
 };
 
 export const generalSlice = createSlice({
@@ -53,6 +57,12 @@ export const generalSlice = createSlice({
     },
     setFavorecidosPageNumber(state, action: PayloadAction<number>) {
       state.favorecidosTable.pageNumber = action.payload;
+    },
+    setEspecieValue(state, action: PayloadAction<number>) {
+      state.especie = action.payload;
+    },
+    setChequeValue(state, action: PayloadAction<number>) {
+      state.cheque = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -94,6 +104,8 @@ export const {
   setFavorecidosPageSize,
   setSelectedCarimboKey,
   setSelectedFavorecidoKey,
+  setChequeValue,
+  setEspecieValue,
 } = generalSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

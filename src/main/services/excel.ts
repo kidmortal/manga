@@ -34,16 +34,15 @@ export async function ExcelWriteEnvelope(envelope: Envelope) {
     const especieLabel = worksheet.getCell(15, 4);
     const chequesValue = worksheet.getCell(14, 3);
     const especieValue = worksheet.getCell(14, 4);
-    conta.value = envelope.favorecido.CONTA;
-    name.value = envelope.favorecido.NOME;
-    agencia.value = envelope.favorecido.AGENCIA;
-    total.value = envelope.valorCheques + envelope.valorEspecie;
-    chequesValue.value = envelope.valorCheques;
-    especieValue.value = envelope.valorEspecie;
-    chequesLabel.value = '';
-    especieLabel.value = '';
-    if (envelope.valorCheques) chequesLabel.value = 'CHEQUES';
-    if (envelope.valorEspecie) especieLabel.value = 'ESPECIE';
+    const { favorecido, valorCheques, valorEspecie } = envelope;
+    conta.value = favorecido.CONTA;
+    name.value = favorecido.NOME;
+    agencia.value = `AG: ${favorecido.AGENCIA}`;
+    total.value = valorCheques + valorEspecie;
+    chequesValue.value = valorCheques > 0 ? valorCheques : '';
+    especieValue.value = valorEspecie > 0 ? valorEspecie : '';
+    chequesLabel.value = valorCheques > 0 ? 'CHEQUES' : '';
+    especieLabel.value = valorEspecie > 0 ? 'ESPECIE' : '';
     workbook.xlsx.writeFile('ENVELOPE.xlsx');
     return true;
   } catch (error) {

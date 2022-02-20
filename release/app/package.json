@@ -11,7 +11,6 @@
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
     "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
-    "generate": "prisma generate --schema=../../prisma/schema.prisma",
     "postinstall": "echo no"
   },
   "dependencies": {

@@ -1,36 +1,31 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import { useState } from 'react';
+import api from 'renderer/api';
 import { useAppDispatch, useAppSelector } from 'renderer/store/hooks';
 import {
+  setChequeValue,
+  setEspecieValue,
   setFavorecidosPageNumber,
   setFavorecidosPageSize,
   setSelectedFavorecidoKey,
 } from 'renderer/store/reducers/general';
+import { formatCurrency } from 'renderer/utils';
 
 type FavorecidosTableProps = {
   favorecidos: Favorecido[];
-  printFavorecido: (value: Favorecido) => void;
   deleteFavorecido: (id: number) => void;
 };
 
 export const FavorecidosTable = ({
   favorecidos,
-  printFavorecido,
   deleteFavorecido,
 }: FavorecidosTableProps) => {
-  const [cheques, setCheques] = useState(0);
-  const [especie, setEspecie] = useState(0);
   const [searchName, setSearchName] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const dispatch = useAppDispatch();
-  const { favorecidosTable, selectedFavorecidoKey } = useAppSelector(
-    (state) => state.general
-  );
+  const { favorecidosTable, selectedFavorecidoKey, cheque, especie } =
+    useAppSelector((state) => state.general);
   const { pageNumber, pageSize } = favorecidosTable;
   const favorecidosKey: FavorecidoKey[] = favorecidos
     ?.map((c, idx) => ({
@@ -42,6 +37,8 @@ export const FavorecidosTable = ({
     );
   const selected =
     selectedFavorecidoKey && favorecidosKey[selectedFavorecidoKey - 1];
+  const total = cheque + especie;
+  const imprimirDisabled = !selected || total <= 0;
 
   const columns = [
     {
@@ -122,39 +119,90 @@ export const FavorecidosTable = ({
     >
       <div
         style={{
-          width: '30rem',
-          height: '6rem',
-          backgroundColor: 'pink',
           display: 'flex',
-          flexDirection: 'column',
-          padding: '0.5rem',
-          borderRadius: '5px',
+          flexDirection: 'row',
+          gap: '1rem',
           marginBottom: '1rem',
         }}
       >
         <div
           style={{
+            width: '30rem',
+            height: '6rem',
+            backgroundColor: 'pink',
             display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
-            justifyContent: 'space-between',
+            flexDirection: 'column',
+            padding: '0.5rem',
+            borderRadius: '5px',
           }}
         >
-          <span>{selected && selected.NOME}</span>
-          <strong>{selected && selected.BANCO}</strong>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '1rem',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>{selected && selected.NOME}</span>
+            <strong>{selected && selected.BANCO}</strong>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+            <span style={{ width: '7rem' }}>
+              AG: {selected && selected.AGENCIA}
+            </span>
+            {cheque > 0 && `CHEQUES: ${formatCurrency(cheque)}`}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+            <span style={{ width: '7rem' }}>{selected && selected.CONTA}</span>
+            {especie > 0 && `ESPECIE: ${formatCurrency(especie)}`}
+          </div>
+          <strong>TOTAL: {formatCurrency(total)}</strong>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
-          <span style={{ width: '7rem' }}>
-            AG: {selected && selected.AGENCIA}
-          </span>
-          {cheques > 0 && `CHEQUES: R$ ${cheques}`}
+        <div
+          style={{
+            display: 'flex',
+            width: '25rem',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            gap: '0.5rem',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
+            <Input
+              type="number"
+              value={cheque}
+              onChange={(e) => dispatch(setChequeValue(Number(e.target.value)))}
+              prefix="Cheque:"
+              suffix="R$"
+            />
+            <Input
+              type="number"
+              value={especie}
+              onChange={(e) =>
+                dispatch(setEspecieValue(Number(e.target.value)))
+              }
+              prefix="Especie:"
+              suffix="R$"
+            />
+          </div>
+          <Button
+            type="primary"
+            disabled={imprimirDisabled}
+            onClick={() =>
+              selected &&
+              api.printEnvelope({
+                favorecido: selected,
+                valorCheques: cheque,
+                valorEspecie: especie,
+              })
+            }
+          >
+            Imprimir Envelope
+          </Button>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
-          <span style={{ width: '7rem' }}>{selected && selected.CONTA}</span>
-          {especie > 0 && `ESPECIE: R$ ${especie}`}
-        </div>
-        <strong>TOTAL: R$ {especie + cheques}</strong>
       </div>
+
       <Table
         rowSelection={{
           type: 'radio',
@@ -188,29 +236,6 @@ export const FavorecidosTable = ({
         columns={columns}
         dataSource={favorecidosKey}
       />
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
-        <Input
-          type="number"
-          value={cheques}
-          onChange={(e) => setCheques(Number(e.target.value))}
-          prefix="Cheque:"
-          suffix="R$"
-        />
-        <Input
-          type="number"
-          value={especie}
-          onChange={(e) => setEspecie(Number(e.target.value))}
-          prefix="Especie:"
-          suffix="R$"
-        />
-        <Button
-          type="primary"
-          disabled={!selected}
-          onClick={() => selected && printFavorecido(selected)}
-        >
-          Imprimir Favorecido
-        </Button>
-      </div>
     </div>
   );
 };
