@@ -1,5 +1,5 @@
-import { execSync } from 'child_process';
-import { dialog } from 'electron';
+import { PowerShell } from 'node-powershell';
+import { app, dialog } from 'electron';
 import { join } from 'path';
 
 export function PrintFile(fileName: string) {
@@ -9,7 +9,13 @@ export function PrintFile(fileName: string) {
       'Print function only available on windows'
     );
   }
-  execSync(
-    `start-process -filepath ${join(process.cwd(), fileName)} -verb print`
-  );
+
+  PowerShell.$`start-process -filepath ${join(
+    app.getPath('userData'),
+    `\\${fileName}`
+  )} -verb print`
+    .then((response) => response)
+    .catch((err) => {
+      dialog.showErrorBox('Error using Powershell', JSON.stringify(err));
+    });
 }
