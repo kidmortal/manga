@@ -1,5 +1,6 @@
 import { execSync } from 'child_process';
 import { dialog } from 'electron';
+import { join } from 'path';
 
 export function PrintFile(fileName: string) {
   if (process.platform === 'linux') {
@@ -9,6 +10,6 @@ export function PrintFile(fileName: string) {
     );
   }
   execSync(
-    `start-process -filepath C:\\Users\\user\\Documents\\${fileName} -verb print`
+    `start-process -filepath ${join(process.cwd(), fileName)} -verb print`
   );
 }
