@@ -1,11 +1,15 @@
+import { app } from 'electron';
 import { join } from 'path';
 import sqlite, { Database, RunResult } from 'sqlite3';
 import { Migrate } from './migrations';
 
-const db = new sqlite.Database(join(process.cwd(), 'manga.db'), (err) => {
-  if (err) console.error('Database opening error: ', err);
-  Migrate(db);
-});
+const db = new sqlite.Database(
+  join(app.getPath('userData'), '/manga.db'),
+  (err) => {
+    if (err) console.error('Database opening error: ', err);
+    Migrate(db);
+  }
+);
 function allSync<T>(query: string, database: Database) {
   return new Promise<T[]>((resolve, reject) => {
     database.all(query, (err, rows) => {

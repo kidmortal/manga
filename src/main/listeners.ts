@@ -74,6 +74,7 @@ ipcMain.on('debug', async (event, arg) => {
   dir.push(`cwb path: ${process.cwd()}`);
   dir.push(`exec path: ${process.execPath}`);
   dir.push(`dirname path: ${__dirname}`);
+  dir.push(`storage path: ${app.getPath('userData')}`);
   dialog.showMessageBox({ title: 'Debug message', message: dir.join('\n') });
   event.reply('debug', 'ok');
 });

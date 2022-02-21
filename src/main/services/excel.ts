@@ -1,17 +1,19 @@
-import { dialog } from 'electron';
+import { app, dialog } from 'electron';
 import ExcelJS from 'exceljs';
 import { join } from 'path';
 
 export async function ExcelWriteCarimbo(carimbo: Carimbo) {
   const workbook = new ExcelJS.Workbook();
   try {
-    const file = await workbook.xlsx.readFile('CARIMBO.xlsx');
+    const file = await workbook.xlsx.readFile(
+      join(app.getPath('userData'), '/CARIMBO.xlsx')
+    );
     const worksheet = file.getWorksheet('CARIMBO');
     const name = worksheet.getCell(8, 2);
     const info = worksheet.getCell(8, 3);
     name.value = carimbo.NOME;
     info.value = carimbo['CNPJ/CPF'];
-    workbook.xlsx.writeFile('CARIMBO.xlsx');
+    workbook.xlsx.writeFile(join(app.getPath('userData'), '/CARIMBO.xlsx'));
     return true;
   } catch (error) {
     dialog.showMessageBox({
@@ -26,7 +28,7 @@ export async function ExcelWriteEnvelope(envelope: Envelope) {
   const workbook = new ExcelJS.Workbook();
   try {
     const file = await workbook.xlsx.readFile(
-      join(process.cwd(), 'ENVELOPE.xlsx')
+      join(app.getPath('userData'), '/ENVELOPE.xlsx')
     );
     const worksheet = file.getWorksheet('ENVELOPE');
     const name = worksheet.getCell(1, 1);
@@ -46,12 +48,14 @@ export async function ExcelWriteEnvelope(envelope: Envelope) {
     especieValue.value = valorEspecie > 0 ? valorEspecie : '';
     chequesLabel.value = valorCheques > 0 ? 'CHEQUES' : '';
     especieLabel.value = valorEspecie > 0 ? 'ESPECIE' : '';
-    workbook.xlsx.writeFile(join(process.cwd(), 'ENVELOPE.xlsx'));
+    workbook.xlsx.writeFile(join(app.getPath('userData'), '/ENVELOPE.xlsx'));
     return true;
   } catch (error) {
     dialog.showMessageBox({
       title: 'Error',
-      message: `Arquivo ENVELOPE.xlsx não localizado, \n verifique em ${process.cwd()} `,
+      message: `Arquivo ENVELOPE.xlsx não localizado, \n verifique em ${app.getPath(
+        'userData'
+      )} `,
     });
     return false;
   }
