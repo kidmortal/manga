@@ -180,7 +180,6 @@
     "jest": "^27.4.5",
     "lint-staged": "^12.1.4",
     "mini-css-extract-plugin": "^2.4.5",
-    "node-printer": "^1.0.4",
     "opencollective-postinstall": "^2.0.3",
     "prettier": "^2.5.1",
     "react-redux": "^7.2.6",
