@@ -1,5 +1,6 @@
 import { dialog } from 'electron';
 import ExcelJS from 'exceljs';
+import { join } from 'path';
 
 export async function ExcelWriteCarimbo(carimbo: Carimbo) {
   const workbook = new ExcelJS.Workbook();
@@ -24,7 +25,9 @@ export async function ExcelWriteCarimbo(carimbo: Carimbo) {
 export async function ExcelWriteEnvelope(envelope: Envelope) {
   const workbook = new ExcelJS.Workbook();
   try {
-    const file = await workbook.xlsx.readFile('ENVELOPE.xlsx');
+    const file = await workbook.xlsx.readFile(
+      join(process.cwd(), 'ENVELOPE.xlsx')
+    );
     const worksheet = file.getWorksheet('ENVELOPE');
     const name = worksheet.getCell(1, 1);
     const conta = worksheet.getCell(17, 2);
@@ -43,7 +46,7 @@ export async function ExcelWriteEnvelope(envelope: Envelope) {
     especieValue.value = valorEspecie > 0 ? valorEspecie : '';
     chequesLabel.value = valorCheques > 0 ? 'CHEQUES' : '';
     especieLabel.value = valorEspecie > 0 ? 'ESPECIE' : '';
-    workbook.xlsx.writeFile('ENVELOPE.xlsx');
+    workbook.xlsx.writeFile(join(process.cwd(), 'ENVELOPE.xlsx'));
     return true;
   } catch (error) {
     dialog.showMessageBox({
