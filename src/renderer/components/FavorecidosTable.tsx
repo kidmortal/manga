@@ -28,15 +28,16 @@ export const FavorecidosTable = ({
     useAppSelector((state) => state.general);
   const { pageNumber, pageSize } = favorecidosTable;
   const favorecidosKey: FavorecidoKey[] = favorecidos
-    ?.map((c, idx) => ({
+    ?.map((c) => ({
       ...c,
-      key: idx + 1,
+      key: c.ID,
     }))
     .filter((value) =>
       value.NOME.toLowerCase().includes(searchName.toLowerCase())
     );
-  const selected =
-    selectedFavorecidoKey && favorecidosKey[selectedFavorecidoKey - 1];
+  const selected = favorecidosKey.find(
+    (favorecido) => favorecido.ID === selectedFavorecidoKey
+  );
   const total = cheque + especie;
   const imprimirDisabled = !selected || total <= 0;
 

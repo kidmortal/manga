@@ -1,6 +1,6 @@
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Row, Space, Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'renderer/store/hooks';
 import {
   setCarimbosPageNumber,
@@ -29,14 +29,16 @@ export const CarimbosTable = ({
   const { pageNumber, pageSize } = carimbosTable;
   const dispatch = useAppDispatch();
   const carimbosKey: CarimboKey[] = carimbos
-    ?.map((c, idx) => ({
+    ?.map((c) => ({
       ...c,
-      key: idx + 1,
+      key: c.ID,
     }))
     .filter((value) =>
       value.NOME.toLowerCase().includes(searchName.toLowerCase())
     );
-  const selected = selectedCarimboKey && carimbosKey[selectedCarimboKey - 1];
+  const selected = carimbosKey.find(
+    (carimbo) => carimbo.ID === selectedCarimboKey
+  );
 
   const columns = [
     {
