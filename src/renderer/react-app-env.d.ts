@@ -32,6 +32,10 @@ type Carimbo = {
   'CNPJ/CPF': string;
 };
 
+interface CarimboPrint extends Carimbo {
+  copies: number;
+}
+
 type Envelope = {
   favorecido: Favorecido;
   valorCheques: number;

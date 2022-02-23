@@ -1,10 +1,5 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
+import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Row, Space, Table } from 'antd';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'renderer/store/hooks';
 import {
@@ -15,7 +10,7 @@ import {
 
 type CarimbosTableProps = {
   carimbos: Carimbo[];
-  printCarimbo: (value: Carimbo) => void;
+  printCarimbo: (value: CarimboPrint) => void;
   deleteCarimbo: (id: number) => void;
 };
 
@@ -24,6 +19,8 @@ export const CarimbosTable = ({
   printCarimbo,
   deleteCarimbo,
 }: CarimbosTableProps) => {
+  const [loading, setLoading] = useState(false);
+  const [copies, setCopies] = useState(1);
   const [searchName, setSearchName] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const { carimbosTable, selectedCarimboKey } = useAppSelector(
@@ -140,13 +137,35 @@ export const CarimbosTable = ({
         }}
         dataSource={carimbosKey}
       />
-      <Button
-        disabled={!selected}
-        type="primary"
-        onClick={() => selected && printCarimbo(selected)}
-      >
-        Imprimir carimbo
-      </Button>
+      <Row justify="center">
+        <Space align="center" direction="horizontal">
+          <Input
+            type="number"
+            min={1}
+            style={{ width: '8rem' }}
+            prefix="Copias: "
+            placeholder="1"
+            value={copies}
+            onChange={(e) => setCopies(Number(e.target.value))}
+          />
+          <Button
+            disabled={!selected}
+            loading={loading}
+            type="primary"
+            onClick={() => {
+              if (selected) {
+                printCarimbo({ ...selected, copies });
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 3000);
+              }
+            }}
+          >
+            Imprimir carimbo
+          </Button>
+        </Space>
+      </Row>
     </div>
   );
 };

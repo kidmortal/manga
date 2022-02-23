@@ -55,7 +55,7 @@ ipcMain.on('getAllFavorecidos', async (event, arg) => {
   event.reply('getAllFavorecidos', favorecidos);
 });
 
-ipcMain.on('printCarimbo', async (event, arg: Carimbo) => {
+ipcMain.on('printCarimbo', async (event, arg: CarimboPrint) => {
   const success = await ExcelWriteCarimbo(arg);
   if (success) PrintFile('CARIMBO.xlsx');
   event.reply('printCarimbo', { message: 'ok' });

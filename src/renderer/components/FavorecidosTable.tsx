@@ -171,6 +171,7 @@ export const FavorecidosTable = ({
           <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
             <Input
               type="number"
+              min={0}
               value={cheque}
               onChange={(e) => dispatch(setChequeValue(Number(e.target.value)))}
               prefix="Cheque:"
@@ -178,6 +179,7 @@ export const FavorecidosTable = ({
             />
             <Input
               type="number"
+              min={0}
               value={especie}
               onChange={(e) =>
                 dispatch(setEspecieValue(Number(e.target.value)))
