@@ -1,0 +1,22 @@
+{
+  "name": "manga",
+  "version": "1.0.5",
+  "description": "manga app",
+  "main": "./dist/main/main.js",
+  "author": {
+    "name": "Manga",
+    "email": "kidmortal@gmail.com",
+    "url": "https://github.com/kidmortal/manga"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
+    "postinstall": "echo no"
+  },
+  "dependencies": {
+    "node-powershell": "^5.0.1",
+    "sqlite3": "^5.0.2"
+  },
+  "license": "MIT",
+  "devDependencies": {}
+}
