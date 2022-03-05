@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'renderer/store/hooks';
 import { Thunks } from 'renderer/store/reducers/thunks';
-import { CarimbosTable } from '../components/CarimbosTable';
-import actions from '../api';
+import { CarimbosTable } from '../../components/CarimbosTable';
+import actions from '../../api';
 
 export const CarimboPage = () => {
   const dispatch = useAppDispatch();

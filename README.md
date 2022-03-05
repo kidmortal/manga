@@ -4,8 +4,6 @@
 
 <br>
 
-i have nothing else to say for now
-
 How to develop
 
 inside src there are two folders

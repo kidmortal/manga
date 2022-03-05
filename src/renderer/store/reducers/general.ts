@@ -13,6 +13,7 @@ interface GeneralState {
     pageNumber: number;
     pageSize: number;
   };
+  favorecidosCopyAmount: number;
   selectedCarimboKey?: number;
   selectedFavorecidoKey?: number;
   especie: number;
@@ -34,6 +35,7 @@ const initialState: GeneralState = {
   selectedCarimboKey: undefined,
   especie: 0,
   cheque: 0,
+  favorecidosCopyAmount: 1,
 };
 
 export const generalSlice = createSlice({
@@ -63,6 +65,9 @@ export const generalSlice = createSlice({
     },
     setChequeValue(state, action: PayloadAction<number>) {
       state.cheque = action.payload;
+    },
+    setFavorecidosCopyAmount(state, action: PayloadAction<number>) {
+      state.favorecidosCopyAmount = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -104,6 +109,7 @@ export const {
   setFavorecidosPageSize,
   setSelectedCarimboKey,
   setSelectedFavorecidoKey,
+  setFavorecidosCopyAmount,
   setChequeValue,
   setEspecieValue,
 } = generalSlice.actions;

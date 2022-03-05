@@ -9,6 +9,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'react/require-default-props': 'off',
     'no-restricted-syntax': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

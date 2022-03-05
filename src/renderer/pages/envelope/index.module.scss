@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.topSection {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.settingsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+}
+
+.envelopePreviewContainer {
+  display: flex;
+}
+
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}

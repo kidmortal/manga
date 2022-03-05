@@ -43,9 +43,21 @@ export default {
     electron.emit('printFavorecido', favorecido);
     return promise<any>('printFavorecido');
   },
-  printEnvelope(envelope: Envelope) {
-    electron.emit('printEnvelope', envelope);
+  printEnvelope(envelope: Envelope, copy: number) {
+    electron.emit('printEnvelope', { envelope, copy });
     return promise<any>('printEnvelope');
+  },
+  printBancoVerso(favorecido: Favorecido, copy: number) {
+    electron.emit('printBancoVerso', { favorecido, copy });
+    return promise<any>('printBancoVerso');
+  },
+  printFavorecidoFrente(favorecido: Favorecido, copy: number) {
+    electron.emit('printFavorecidoFrente', { favorecido, copy });
+    return promise<any>('printFavorecidoFrente');
+  },
+  printFavorecidoVerso(favorecido: Favorecido, copy: number) {
+    electron.emit('printFavorecidoVerso', { favorecido, copy });
+    return promise<any>('printFavorecidoVerso');
   },
   recoverDatabase() {
     electron.emit('recoverDatabase');

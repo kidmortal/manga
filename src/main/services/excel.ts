@@ -6,6 +6,16 @@ function excelPath() {
   return process.platform === 'linux' ? '/manga.xlsx' : '\\manga.xlsx';
 }
 
+function notFoundDialog(path: string) {
+  dialog.showMessageBox({
+    title: 'Error',
+    message: `Arquivo ${join(
+      app.getPath('userData'),
+      path
+    )} não localizado, \n verifique em ${app.getPath('userData')} `,
+  });
+}
+
 export async function ExcelWriteCarimbo(carimbo: CarimboPrint) {
   const workbook = new ExcelJS.Workbook();
   const path = excelPath();
@@ -18,22 +28,21 @@ export async function ExcelWriteCarimbo(carimbo: CarimboPrint) {
     const info = worksheet.getCell(8, 3);
     name.value = carimbo.NOME;
     info.value = carimbo['CNPJ/CPF'];
+    // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
+    // @ts-ignore
     worksheet.pageSetup.copies = carimbo.copies;
     workbook.xlsx.writeFile(join(app.getPath('userData'), path));
     return true;
   } catch (error) {
-    dialog.showMessageBox({
-      title: 'Error',
-      message: `Arquivo ${join(
-        app.getPath('userData'),
-        path
-      )} não localizado, \n verifique em ${app.getPath('userData')} `,
-    });
+    notFoundDialog(path);
     return false;
   }
 }
 
-export async function ExcelWriteEnvelope(envelope: Envelope) {
+export async function ExcelWriteEnvelope(
+  envelope: Envelope,
+  copyAmount: number
+) {
   const workbook = new ExcelJS.Workbook();
   const path = excelPath();
   try {
@@ -58,15 +67,87 @@ export async function ExcelWriteEnvelope(envelope: Envelope) {
     especieValue.value = valorEspecie > 0 ? valorEspecie : '';
     chequesLabel.value = valorCheques > 0 ? 'CHEQUES' : '';
     especieLabel.value = valorEspecie > 0 ? 'ESPECIE' : '';
+    // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
+    // @ts-ignore
+    worksheet.pageSetup.copies = copyAmount;
     workbook.xlsx.writeFile(join(app.getPath('userData'), path));
     return true;
   } catch (error) {
-    dialog.showMessageBox({
-      title: 'Error',
-      message: `Arquivo ${join(
-        path
-      )} não localizado, \n verifique em ${app.getPath('userData')} `,
-    });
+    notFoundDialog(path);
+    return false;
+  }
+}
+
+export async function ExcelWriteFavorecidoNomeVerso(
+  favorecido: Favorecido,
+  copyAmount: number
+) {
+  const workbook = new ExcelJS.Workbook();
+  const path = excelPath();
+  try {
+    const file = await workbook.xlsx.readFile(
+      join(app.getPath('userData'), path)
+    );
+    const worksheet = file.getWorksheet('FAVOVERSO');
+    const name = worksheet.getCell(21, 2);
+    name.value = favorecido.NOME;
+    // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
+    // @ts-ignore
+    worksheet.pageSetup.copies = copyAmount;
+    workbook.xlsx.writeFile(join(app.getPath('userData'), path));
+    return true;
+  } catch (error) {
+    notFoundDialog(path);
+    return false;
+  }
+}
+
+export async function ExcelWriteFavorecidoNomeFrente(
+  favorecido: Favorecido,
+  copyAmount: number
+) {
+  const workbook = new ExcelJS.Workbook();
+  const path = excelPath();
+  try {
+    const file = await workbook.xlsx.readFile(
+      join(app.getPath('userData'), path)
+    );
+    const worksheet = file.getWorksheet('FRENTE');
+    const name = worksheet.getCell(6, 1);
+    name.value = favorecido.NOME;
+    // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
+    // @ts-ignore
+    worksheet.pageSetup.copies = copyAmount;
+    workbook.xlsx.writeFile(join(app.getPath('userData'), path));
+    return true;
+  } catch (error) {
+    notFoundDialog(path);
+    return false;
+  }
+}
+
+export async function ExcelWriteFavorecidoBancoVerso(
+  favorecido: Favorecido,
+  copyAmount: number
+) {
+  const workbook = new ExcelJS.Workbook();
+  const path = excelPath();
+  try {
+    const file = await workbook.xlsx.readFile(
+      join(app.getPath('userData'), path)
+    );
+    const worksheet = file.getWorksheet('VERSO');
+    const agencia = worksheet.getCell(21, 2);
+    const conta = worksheet.getCell(21, 4);
+    agencia.value = favorecido.AGENCIA;
+    conta.value = favorecido.CONTA;
+    // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
+    // @ts-ignore
+    worksheet.pageSetup.copies = copyAmount;
+    workbook.xlsx.writeFile(join(app.getPath('userData'), path));
+    return true;
+  } catch (error) {
+    notFoundDialog(path);
     return false;
   }
 }

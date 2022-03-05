@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { CarimboPage } from './pages/carimbo';
 import { Header } from './components/Header';
-import { FavorecidoPage } from './pages/favorecido';
 import { store } from './store';
+import { EnvelopePage } from './pages/envelope';
 import 'antd/dist/antd.css';
 import './styles/app.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,7 +28,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<CarimboPage />} />
           <Route path="/carimbo" element={<CarimboPage />} />
-          <Route path="/favorecido" element={<FavorecidoPage />} />
+          <Route path="/envelope" element={<EnvelopePage />} />
         </Routes>
       </Router>
       <ToastContainer />

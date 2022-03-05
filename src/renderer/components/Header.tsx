@@ -53,9 +53,9 @@ export function Header() {
         <Button
           type="primary"
           icon={<UserOutlined />}
-          onClick={() => navigate('/favorecido')}
+          onClick={() => navigate('/envelope')}
         >
-          Favorecidos
+          Envelopes / Cheques
         </Button>
       </div>
       <Configuration />
