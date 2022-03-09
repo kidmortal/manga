@@ -1,4 +1,4 @@
-import { app, dialog } from 'electron';
+import { app, dialog, shell } from 'electron';
 import ExcelJS from 'exceljs';
 import { join } from 'path';
 
@@ -7,6 +7,7 @@ function excelPath() {
 }
 
 function notFoundDialog(path: string) {
+  shell.openPath(app.getPath('userData'));
   dialog.showMessageBox({
     title: 'Error',
     message: `Arquivo ${join(
