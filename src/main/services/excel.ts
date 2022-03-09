@@ -2,8 +2,8 @@ import { app, dialog, shell } from 'electron';
 import ExcelJS from 'exceljs';
 import { join } from 'path';
 
-function excelPath() {
-  return process.platform === 'linux' ? '/manga.xlsx' : '\\manga.xlsx';
+function excelPath(name: string) {
+  return process.platform === 'linux' ? `/${name}.xlsx` : `\\${name}.xlsx`;
 }
 
 function notFoundDialog(path: string) {
@@ -19,7 +19,7 @@ function notFoundDialog(path: string) {
 
 export async function ExcelWriteCarimbo(carimbo: CarimboPrint) {
   const workbook = new ExcelJS.Workbook();
-  const path = excelPath();
+  const path = excelPath('CARIMBO');
   try {
     const file = await workbook.xlsx.readFile(
       join(app.getPath('userData'), path)
@@ -45,7 +45,7 @@ export async function ExcelWriteEnvelope(
   copyAmount: number
 ) {
   const workbook = new ExcelJS.Workbook();
-  const path = excelPath();
+  const path = excelPath('ENVELOPE');
   try {
     const file = await workbook.xlsx.readFile(
       join(app.getPath('userData'), path)
@@ -84,7 +84,7 @@ export async function ExcelWriteFavorecidoNomeVerso(
   copyAmount: number
 ) {
   const workbook = new ExcelJS.Workbook();
-  const path = excelPath();
+  const path = excelPath('FAVOVERSO');
   try {
     const file = await workbook.xlsx.readFile(
       join(app.getPath('userData'), path)
@@ -108,7 +108,7 @@ export async function ExcelWriteFavorecidoNomeFrente(
   copyAmount: number
 ) {
   const workbook = new ExcelJS.Workbook();
-  const path = excelPath();
+  const path = excelPath('FRENTE');
   try {
     const file = await workbook.xlsx.readFile(
       join(app.getPath('userData'), path)
@@ -132,7 +132,7 @@ export async function ExcelWriteFavorecidoBancoVerso(
   copyAmount: number
 ) {
   const workbook = new ExcelJS.Workbook();
-  const path = excelPath();
+  const path = excelPath('VERSO');
   try {
     const file = await workbook.xlsx.readFile(
       join(app.getPath('userData'), path)

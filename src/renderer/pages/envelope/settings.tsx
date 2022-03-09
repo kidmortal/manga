@@ -1,4 +1,5 @@
 import { Button, Input, Form } from 'antd';
+import { useState } from 'react';
 import api from 'renderer/api';
 import { useAppDispatch } from 'renderer/store/hooks';
 import {
@@ -21,6 +22,7 @@ export function EnvelopeSettings({
   especie,
   copyAmount,
 }: EnvelopeSettingsProps) {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const total = cheque + especie;
@@ -67,44 +69,73 @@ export function EnvelopeSettings({
       </div>
       <div className={styles.columnContainer}>
         <Button
+          loading={loading}
           type="primary"
           disabled={!selected || total <= 0}
-          onClick={() =>
-            selected &&
-            api.printEnvelope(
-              {
-                favorecido: selected,
-                valorCheques: cheque,
-                valorEspecie: especie,
-              },
-              copyAmount
-            )
-          }
+          onClick={() => {
+            if (selected) {
+              api.printEnvelope(
+                {
+                  favorecido: selected,
+                  valorCheques: cheque,
+                  valorEspecie: especie,
+                },
+                copyAmount
+              );
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 4000);
+            }
+          }}
         >
           Envelope
         </Button>
         <Button
+          loading={loading}
           disabled={!selected}
           type="primary"
-          onClick={() => selected && api.printBancoVerso(selected, copyAmount)}
+          onClick={() => {
+            if (selected) {
+              api.printBancoVerso(selected, copyAmount);
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 4000);
+            }
+          }}
         >
           Banco Verso
         </Button>
         <Button
+          loading={loading}
           disabled={!selected}
           type="primary"
-          onClick={() =>
-            selected && api.printFavorecidoFrente(selected, copyAmount)
-          }
+          onClick={() => {
+            if (selected) {
+              api.printFavorecidoFrente(selected, copyAmount);
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 4000);
+            }
+          }}
         >
           Favorecido frente
         </Button>
         <Button
+          loading={loading}
           disabled={!selected}
           type="primary"
-          onClick={() =>
-            selected && api.printFavorecidoVerso(selected, copyAmount)
-          }
+          onClick={() => {
+            if (selected) {
+              api.printFavorecidoVerso(selected, copyAmount);
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 4000);
+            }
+          }}
         >
           Favorecido Verso
         </Button>

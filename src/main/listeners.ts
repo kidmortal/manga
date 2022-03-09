@@ -63,7 +63,7 @@ ipcMain.on('getAllFavorecidos', async (event, arg) => {
 
 ipcMain.on('printCarimbo', async (event, arg: CarimboPrint) => {
   const success = await ExcelWriteCarimbo(arg);
-  if (success) PrintFile('manga.xlsx');
+  if (success) PrintFile('CARIMBO.xlsx');
   event.reply('printCarimbo', { message: 'ok' });
 });
 
@@ -71,7 +71,7 @@ ipcMain.on(
   'printEnvelope',
   async (event, arg: { envelope: Envelope; copy: number }) => {
     const success = await ExcelWriteEnvelope(arg.envelope, arg.copy);
-    if (success) PrintFile('manga.xlsx');
+    if (success) PrintFile('ENVELOPE.xlsx');
     event.reply('printEnvelope', { message: 'ok' });
   }
 );
@@ -83,8 +83,8 @@ ipcMain.on(
       arg.favorecido,
       arg.copy
     );
-    if (success) PrintFile('manga.xlsx');
-    event.reply('printEnvelope', { message: 'ok' });
+    if (success) PrintFile('FAVOVERSO.xlsx');
+    event.reply('printBancoVerso', { message: 'ok' });
   }
 );
 
@@ -95,8 +95,8 @@ ipcMain.on(
       arg.favorecido,
       arg.copy
     );
-    if (success) PrintFile('manga.xlsx');
-    event.reply('printEnvelope', { message: 'ok' });
+    if (success) PrintFile('FRENTE.xlsx');
+    event.reply('printFavorecidoFrente', { message: 'ok' });
   }
 );
 
@@ -107,8 +107,8 @@ ipcMain.on(
       arg.favorecido,
       arg.copy
     );
-    if (success) PrintFile('manga.xlsx');
-    event.reply('printEnvelope', { message: 'ok' });
+    if (success) PrintFile('VERSO.xlsx');
+    event.reply('printFavorecidoVerso', { message: 'ok' });
   }
 );
 
