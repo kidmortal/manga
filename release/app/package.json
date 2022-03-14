@@ -1,6 +1,6 @@
 {
   "name": "manga",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "manga app",
   "main": "./dist/main/main.js",
   "author": {
@@ -14,6 +14,7 @@
     "postinstall": "echo no"
   },
   "dependencies": {
+    "@sentry/electron": "^3.0.4",
     "node-powershell": "^5.0.1",
     "sqlite3": "^5.0.2"
   },

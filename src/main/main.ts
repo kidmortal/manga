@@ -1,11 +1,16 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { BrowserWindow, app, shell } from 'electron';
+import * as Sentry from '@sentry/electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+/* eslint global-require: off, no-console: off, promise/always-return: off */
 import { resolveHtmlPath } from './util';
 import './listeners';
+
+Sentry.init({
+  dsn: 'https://223b7394ea10406681aae6e8f6767bbd@o1086666.ingest.sentry.io/6258360',
+});
 
 export default class AppUpdater {
   constructor() {
