@@ -83,7 +83,7 @@ ipcMain.on(
       arg.favorecido,
       arg.copy
     );
-    if (success) PrintFile('FAVOVERSO.xlsx');
+    if (success) PrintFile('VERSO.xlsx');
     event.reply('printBancoVerso', { message: 'ok' });
   }
 );
@@ -107,7 +107,7 @@ ipcMain.on(
       arg.favorecido,
       arg.copy
     );
-    if (success) PrintFile('VERSO.xlsx');
+    if (success) PrintFile('FAVOVERSO.xlsx');
     event.reply('printFavorecidoVerso', { message: 'ok' });
   }
 );
