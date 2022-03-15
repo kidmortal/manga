@@ -113,13 +113,10 @@ ipcMain.on(
 );
 
 ipcMain.on('debug', async (event, arg) => {
-  const dir = [];
-  dir.push(`app path: ${app.getAppPath()}`);
-  dir.push(`app.exe path: ${app.getPath('exe')}`);
-  dir.push(`cwb path: ${process.cwd()}`);
-  dir.push(`exec path: ${process.execPath}`);
-  dir.push(`dirname path: ${__dirname}`);
-  dir.push(`storage path: ${app.getPath('userData')}`);
-  dialog.showMessageBox({ title: 'Debug message', message: dir.join('\n') });
+  const info = [];
+  info.push(`App Version: ${app.getName()} ${app.getVersion()}`);
+  info.push(`Created by: Kidmortal`);
+  info.push(`Github: www.github.com/kidmortal/manga`);
+  dialog.showMessageBox({ title: 'Debug message', message: info.join('\n') });
   event.reply('debug', 'ok');
 });

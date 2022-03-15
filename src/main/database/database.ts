@@ -57,10 +57,10 @@ export function RecoverDatabase(path: string) {
 
 export const database = {
   getAllCarimbos() {
-    return allSync('SELECT * FROM CARIMBOS', db);
+    return allSync('SELECT * FROM CARIMBOS ORDER BY NOME ASC', db);
   },
   getAllFavorecidos() {
-    return allSync('SELECT * FROM FAVORECIDOS', db);
+    return allSync('SELECT * FROM FAVORECIDOS ORDER BY NOME ASC', db);
   },
   async createCarimbo(carimbo: CarimboNew) {
     await runSync(

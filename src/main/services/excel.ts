@@ -95,6 +95,14 @@ export async function ExcelWriteFavorecidoNomeVerso(
     // This ignore is needed, because the lib doesnt allow you to change it, but its needed here
     // @ts-ignore
     worksheet.pageSetup.copies = copyAmount;
+    // @ts-ignore
+    if (worksheet.pageSetup.copies !== copyAmount) {
+      dialog.showMessageBox({
+        title: 'Error',
+        message: `Erro ao configurar quantidade de copias `,
+      });
+      return false;
+    }
     workbook.xlsx.writeFile(join(app.getPath('userData'), path));
     return true;
   } catch (error) {
